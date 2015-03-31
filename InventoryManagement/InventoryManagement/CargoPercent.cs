@@ -18,13 +18,14 @@ namespace InventoryManagement
 
         #region CodeEditor
         String lcdname = "Cargo Status";
-        long warnpercent = 80; 
+        long warnpercent = 80;
+        long fullpercent = 99;
  
         List<IMyTerminalBlock> containers = new List<IMyTerminalBlock>(); 
-        IMyTextPanel lcd; 
+        IMyTextPanel lcd;
  
-        long maxvol = 0; 
-        long curvol = 0; 
+        long maxvol = 0;
+        long curvol = 0;
  
         void Main() 
         { 
@@ -43,15 +44,14 @@ namespace InventoryManagement
             if (maxvol > 0) 
             { 
                 long percent = ((curvol * 100) / maxvol); 
-                String output = "Storage:" + percent + "%"; 
-                //Note intent is to fit it on one screen with font size 3.0 
-                output += "\nLeft: " + (maxvol - curvol) + "L"; 
-                if (percent > 99.999) { //100 minus epsilon 
+                String output = "Storage:\n" + percent + "%"; 
+                //Note intent is to fit it on one screen with font size 5.0 
+                if (percent >= fullpercent) {
                     lcd.SetValue<Color>("FontColor", VRageMath.Color.Red); 
-                    output += "\nCARGO FULL"; 
-                } else if (percent > warnpercent) { 
+                    output += "\nAll full"; 
+                } else if (percent >= warnpercent) { 
                     lcd.SetValue<Color>("FontColor", VRageMath.Color.Yellow); 
-                    output += "\nNEAR FULL"; 
+                    output += "\nNear full"; 
                 } else { 
                     lcd.SetValue<Color>("FontColor", VRageMath.Color.Green); 
                 } 
